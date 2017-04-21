@@ -45,6 +45,11 @@ namespace move
 			get { return toRegion; }
 		}
 
+	    public override gMoveTypes MoveType
+	    {
+	        get { return gMoveTypes.AttackTransfer;  }
+	    }
+
 		public String String
 		{
 			get { 

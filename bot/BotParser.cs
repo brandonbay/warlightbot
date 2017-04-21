@@ -34,64 +34,68 @@ namespace bot
                 if (line.Length == 0)
                     continue;
 
-                String[] parts = line.Split(' ');
-                if (parts[0] == "pick_starting_regions")
-                {
-                    // Pick which regions you want to start with
-                    currentState.SetPickableStartingRegions(parts);
-                    var preferredStartingRegions = bot.GetPreferredStartingRegions(currentState, long.Parse(parts[1]));
-                    var output = new StringBuilder();
-                    foreach (var region in preferredStartingRegions)
-                        output.Append(region.Id + " ");
+                var parts = line.Split(' ');
+                var output = new StringBuilder();
 
-                    Console.WriteLine(output);
-                }
-                else if (parts.Length == 3 && parts[0] == "go")
+                switch(parts[0])
                 {
-                    // We need to do a move
-                    var output = new StringBuilder();
-                    if (parts[1] == "place_armies")
-                    {
-                        // Place armies
-                        List<PlaceArmiesMove> placeArmiesMoves = bot.GetPlaceArmiesMoves(currentState, long.Parse(parts[2]));
-                        foreach (var move in placeArmiesMoves)
-                            output.Append(move.String + ",");
-                    }
-                    else if (parts[1] == "attack/transfer")
-                    {
-                        // attack/transfer
-                        var attackTransferMoves = bot.GetAttackTransferMoves(currentState, long.Parse(parts[2]));
-                        foreach (var move in attackTransferMoves)
-                            output.Append(move.String + ",");
-                    }
-                    if (output.Length > 0)
+                    case "pick_starting_regions" :
+                        // Pick which regions you want to start with
+                        currentState.SetPickableStartingRegions(parts);
+                        var preferredStartingRegions = bot.GetPreferredStartingRegions(currentState, long.Parse(parts[1]));
+                        foreach(var region in preferredStartingRegions)
+                            output.Append(region.Id + " ");
                         Console.WriteLine(output);
-                    else
+                        break;
+                    case "go" :
+                        if(parts.Length != 3)
+                            break;
+                        // We need to do a move
+                        currentState.UpdateRegions();
+                        currentState.UpdateAggression();
+                        switch(Move.GetMoveType(parts[1]))
+                        {
+                            case Move.gMoveTypes.Place :
+                                // Place armies
+                                var placeArmiesMoves = bot.GetPlaceArmiesMoves(currentState, long.Parse(parts[2]));
+                                foreach(var move in placeArmiesMoves)
+                                    output.Append(move.String + ",");
+                                break;
+                            case Move.gMoveTypes.AttackTransfer :
+                                // attack/transfer
+                                var attackTransferMoves = bot.GetAttackTransferMoves(currentState, long.Parse(parts[2]));
+                                foreach(var move in attackTransferMoves)
+                                    output.Append(move.String + ",");
+                                break;
+                        }
+                        if(output.Length > 0)
+                        {
+                            Console.WriteLine(output);
+                            break;
+                        }
                         Console.WriteLine("No moves");
-                }
-                else if (parts.Length == 3 && parts[0] == "settings")
-                {
-                    // Update settings
-                    currentState.UpdateSettings(parts[1], parts[2]);
-                }
-                else if (parts[0] == "setup_map")
-                {
-                    // Initial full map is given
-                    currentState.SetupMap(parts);
-                }
-                else if (parts[0] == "update_map")
-                {
-                    // All visible regions are given
-                    currentState.UpdateMap(parts);
-                }
-                else if (parts[0] == "opponent_moves")
-                {
-                    // All visible opponent moves are given
-                    currentState.ReadOpponentMoves(parts);
-                }
-                else
-                {
-                    Console.Error.WriteLine("Unable to parse line \"" + line + "\"");
+                        break;
+                    case "settings":
+                        if(parts.Length != 3)
+                            break;
+                        // Update settings
+                        currentState.UpdateSettings(parts[1], parts[2]);
+                        break;
+                    case "setup_map" :
+                        // Initial full map is given
+                        currentState.SetupMap(parts);
+                        break;
+                    case "update_map" :
+                        // All visible regions are given
+                        currentState.UpdateMap(parts);
+                        break;
+                    case "opponent_moves" :
+                        // All visible opponent moves are given
+                        currentState.ReadOpponentMoves(parts);
+                        break;
+                    default :
+                        Console.Error.WriteLine("Unable to parse line \"" + line + "\"");
+                        break;
                 }
             }
         }

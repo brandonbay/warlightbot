@@ -26,13 +26,59 @@ namespace main
             this.superRegions = superRegions;
         }
 
+        public enum Territories
+        {
+            Alaska,
+            NorthwestTerritory,
+            Greenland,
+            Alberta,
+            Ontario,
+            Quebec,
+            WesternUnitedStates,
+            EasternUnitedStates,
+            CentralAmerica,
+            Venezuela,
+            Peru,
+            Brazil,
+            Argentina,
+            Iceland,
+            GreatBritain,
+            Scandinavia,
+            Ukraine,
+            WesternEurope,
+            NorthernEurope,
+            SouthernEurope,
+            NorthAfrica,
+            Egypt,
+            EastAfrica,
+            Congo,
+            SouthAfrica,
+            Madagascar,
+            Ural,
+            Siberia,
+            Yakutsk,
+            Kamchatka,
+            Irkutsk,
+            Kazakhstan,
+            China,
+            Mongolia,
+            Japan,
+            MiddleEast,
+            India,
+            Siam,
+            Indonesia,
+            NewGuinea,
+            WesternAustralia,
+            EasternAustralia
+        }
+
         /**
          * Add a Region to the map
          * @param region : Region to be Added
          */
         public void Add(Region region)
         {
-            foreach (Region r in regions)
+            foreach (var r in regions)
                 if (r.Id == region.Id)
                 {
                     Console.Error.WriteLine("Region cannot be Added: id already exists.");
@@ -47,7 +93,7 @@ namespace main
          */
         public void Add(SuperRegion superRegion)
         {
-            foreach (SuperRegion sr in superRegions)
+            foreach (var sr in superRegions)
                 if (sr.Id == superRegion.Id)
                 {
                     Console.Error.WriteLine("SuperRegion cannot be Added: id already exists.");
@@ -61,22 +107,22 @@ namespace main
          */
         public Map GetMapCopy()
         {
-            Map newMap = new Map();
-            foreach (SuperRegion sr in superRegions) //copy superRegions
+            var newMap = new Map();
+            foreach (var sr in superRegions) //copy superRegions
             {
-                SuperRegion newSuperRegion = new SuperRegion(sr.Id, sr.ArmiesReward);
+                var newSuperRegion = new SuperRegion(sr.Id, sr.ArmiesReward);
                 newMap.Add(newSuperRegion);
             }
-            foreach (Region r in regions) //copy regions
+            foreach (var r in regions) //copy regions
             {
-                Region newRegion = new Region(r.Id, newMap.GetSuperRegion(r.SuperRegion.Id), r.PlayerName, r.Armies);
+                var newRegion = new Region(r.Id, newMap.GetSuperRegion(r.SuperRegion.Id), r.PlayerName, r.Armies);
                 newMap.Add(newRegion);
             }
-            foreach (Region r in regions) //Add neighbors to copied regions
+            foreach (var r in regions) //Add neighbours to copied regions
             {
-                Region newRegion = newMap.GetRegion(r.Id);
-                foreach (Region neighbor in r.Neighbors)
-                    newRegion.AddNeighbor(newMap.GetRegion(neighbor.Id));
+                var newRegion = newMap.GetRegion(r.Id);
+                foreach (var neighbour in r.Neighbours)
+                    newRegion.AddNeighbour(newMap.GetRegion(neighbour.Id));
             }
             return newMap;
         }
@@ -87,7 +133,7 @@ namespace main
          */
         public Region GetRegion(int id)
         {
-            foreach (Region region in regions)
+            foreach (var region in regions)
                 if (region.Id == id)
                     return region;
             return null;
@@ -99,7 +145,7 @@ namespace main
          */
         public SuperRegion GetSuperRegion(int id)
         {
-            foreach (SuperRegion superRegion in superRegions)
+            foreach (var superRegion in superRegions)
                 if (superRegion.Id == id)
                     return superRegion;
             return null;

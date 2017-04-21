@@ -12,18 +12,26 @@ namespace main
     public class Region
     {
 
+        public const string gUnknownRegion = "unknown";
+        public const string gNeutralRegion = "neutral";
+        
         private int id;
-        private List<Region> neighbors;
+        private List<Region> neighbours;
         private SuperRegion superRegion;
         private int armies;
         private String playerName;
+
+        public Map.Territories Name
+        {
+            get { return (Map.Territories)(id - 1); }
+        }
 
         public Region(int id, SuperRegion superRegion)
         {
             this.id = id;
             this.superRegion = superRegion;
-            this.neighbors = new List<Region>();
-            this.playerName = "unknown";
+            this.neighbours = new List<Region>();
+            this.playerName = gUnknownRegion;
             this.armies = 0;
 
             superRegion.AddSubRegion(this);
@@ -33,29 +41,29 @@ namespace main
         {
             this.id = id;
             this.superRegion = superRegion;
-            this.neighbors = new List<Region>();
+            this.neighbours = new List<Region>();
             this.playerName = playerName;
             this.armies = armies;
 
             superRegion.AddSubRegion(this);
         }
 
-        public void AddNeighbor(Region neighbor)
+        public void AddNeighbour(Region neighbour)
         {
-            if (!neighbors.Contains(neighbor))
+            if (!neighbours.Contains(neighbour))
             {
-                neighbors.Add(neighbor);
-                neighbor.AddNeighbor(this);
+                neighbours.Add(neighbour);
+                neighbour.AddNeighbour(this);
             }
         }
 
         /**
          * @param region a Region object
-         * @return True if this Region is a neighbor of given Region, false otherwise
+         * @return True if this Region is a neighbour of given Region, false otherwise
          */
-        public bool IsNeighbor(Region region)
+        public bool IsNeighbour(Region region)
         {
-            if (neighbors.Contains(region))
+            if (neighbours.Contains(region))
                 return true;
             return false;
         }
@@ -66,7 +74,7 @@ namespace main
          */
         public bool OwnedByPlayer(String playerName)
         {
-            if (playerName == this.playerName)
+            if (playerName.Equals(this.playerName))
                 return true;
             return false;
         }
@@ -88,9 +96,9 @@ namespace main
             get { return id; }
         }
 
-        public List<Region> Neighbors
+        public List<Region> Neighbours
         {
-            get { return neighbors; }
+            get { return neighbours; }
         }
 
         public SuperRegion SuperRegion

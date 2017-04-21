@@ -37,6 +37,11 @@ namespace move
 			get { return region; }
 		}
 
+        public override gMoveTypes MoveType
+        {
+            get { return gMoveTypes.Place; }
+        }
+
 		public String String
 		{
 			get { 

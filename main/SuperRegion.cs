@@ -32,11 +32,11 @@ namespace main
          */
         public string OwnedByPlayer()
     	{
-    		String playerName = subRegions.First().PlayerName;
-    		foreach(Region region in subRegions)
+    		var playerName = subRegions.First().PlayerName;
+    		foreach(var region in subRegions)
     		{
     			if (playerName != region.PlayerName)
-    				return null;
+    				return "no owner";
     		}
     		return playerName;
     	}
