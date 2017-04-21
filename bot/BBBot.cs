@@ -20,7 +20,7 @@ namespace bot
      * a new instance of your bot, and then the parser is started.
      */
 
-    public class BotStarter : Bot
+    public class BBBot : Bot
     {
 
         private const int cNumberOfStartingRegions = 6;

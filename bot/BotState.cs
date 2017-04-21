@@ -395,7 +395,7 @@ namespace bot
             var iterator = 0;
 
             foreach(var tempRegion in
-                tempExpansionRegions.OrderBy(region => BotStarter.FavouriteTerritories.IndexOf(region.Name)))
+                tempExpansionRegions.OrderBy(region => BBBot.FavouriteTerritories.IndexOf(region.Name)))
             {
                 expansionRegions.Add(iterator, tempRegion);
                 iterator++;
@@ -406,7 +406,7 @@ namespace bot
                 expansionRegions.Add(0, BorderTerritories().FirstOrDefault());
                 if(expansionRegions[0] == null)
                     expansionRegions[0] =
-                        MyRegions().OrderBy(r => BotStarter.FavouriteTerritories.IndexOf(r.Name)).FirstOrDefault();
+                        MyRegions().OrderBy(r => BBBot.FavouriteTerritories.IndexOf(r.Name)).FirstOrDefault();
             }
 
             if(expansionRegions.Count == 1)
@@ -456,8 +456,8 @@ namespace bot
             foreach(var region in ExpansionRegions.Values)
             {
                 var favouriteRank = 1 /
-                                    (((double)BotStarter.FavouriteTerritories.IndexOf(region.Name) + 1) /
-                                        (double)BotStarter.FavouriteTerritories.Count);
+                                    (((double)BBBot.FavouriteTerritories.IndexOf(region.Name) + 1) /
+                                        (double)BBBot.FavouriteTerritories.Count);
                 if(favouriteRank > 20)
                     favouriteRank = favouriteRank / 2;
                 favouriteRank += 5 * region.Armies;

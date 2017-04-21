@@ -7,8 +7,8 @@
     <ProjectGuid>{630A9CC5-328A-4569-8CBB-568410D7ADB3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WarLightStarterBot</RootNamespace>
-    <AssemblyName>WarLightStarterBot</AssemblyName>
+    <RootNamespace>WarLightBot</RootNamespace>
+    <AssemblyName>WarLightBot</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="bot\Bot.cs" />
     <Compile Include="bot\BotParser.cs" />
-    <Compile Include="bot\BotStarter.cs" />
+    <Compile Include="bot\BBBot.cs" />
     <Compile Include="bot\BotState.cs" />
     <Compile Include="main\Map.cs" />
     <Compile Include="main\Region.cs" />
